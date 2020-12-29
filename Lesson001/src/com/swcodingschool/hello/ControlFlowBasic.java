@@ -2,7 +2,7 @@ package com.swcodingschool.hello;
 /*
  * 프로그램의 기본 제어 구조 설명
  * 순차제어구조, 조건제어구조, 반복제어구조
- * hkjhjhj
+ * Test
  */
 public class ControlFlowBasic {
 
