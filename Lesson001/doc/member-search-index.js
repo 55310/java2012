@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"com.swcodingschool.hello","c":"comment","l":"comment()","u":"%3Cinit%3E()"},{"p":"com.swcodingschool.hello","c":"comment","l":"main(String[])","u":"main(java.lang.String[])"}];updateSearchResults();
