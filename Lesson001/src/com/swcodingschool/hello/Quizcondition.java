@@ -1,11 +1,18 @@
 package com.swcodingschool.hello;
 
+import java.util.Scanner;
+
 public class Quizcondition {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		int s = 60;
+
+		Scanner sc = new Scanner(System.in);
+		System.out.println("점수 : ");
+			int s = sc.nextInt();
+			
+			
 		if( s >=90 ) {
 			System.out.println("A");			
 		}
@@ -18,6 +25,11 @@ public class Quizcondition {
 		else {
 			System.out.println("Other");
 		} 
+		
+		
+		
+		
+		
 		
 	}
 
