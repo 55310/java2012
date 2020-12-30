@@ -20,5 +20,7 @@ public class ExSequentialFlow {
 		System.out.printf("%5.1f Celsus is %5.1f", temperatureC, temperatureF);
 		sc.close();
 		System.out.println("프로그램을 종료합니다.");
+		
+	
 	}// end of main
 }//end of class
