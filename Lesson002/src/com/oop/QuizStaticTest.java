@@ -3,8 +3,11 @@ package com.oop;
 public class QuizStaticTest {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		QuizStaticGuest Guest1 = new QuizStaticGuest("Guest1", 1000000);
+		QuizStaticGuest Guest2 = new QuizStaticGuest("Guest2", 1500000);
+        
+		
 	}
 
 }
+

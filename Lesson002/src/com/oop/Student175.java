@@ -21,14 +21,14 @@ public class Student175 {
 		this.money = money;
 		this.studentID = serialNum++;
 	} // end of constructor Student 175()
-	
+	// 
 	public void takeBus(Bus bus) {
 		bus.take(1000);
 		this.money -= 1000; 
 	} //end of takeBus()
 	
 	public void takeOffBus(Bus bus) {
-		bus.takeOff();		
+		bus.takeOffBus();		
 	}
 	
 		public void showInfo() {
