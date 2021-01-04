@@ -19,9 +19,9 @@ public class BookArray {
 	    for(int i = 0; i <library.length; i++) {
 	    library[i].showBookInfo();
 	    }
-	    for(int i = 0; i <library.length; i++) {
-	    	System.out.println(library[i]);
-		}
+	    //for(int i = 0; i <library.length; i++) {
+	    	//System.out.println(library[i]);
+		
 
    } // end of main
 } // end of class
