@@ -193,7 +193,7 @@ public class BookInfo extends JFrame {
 		JLabel lblNewLabel_1_1_1 = new JLabel("출판사");
 		lblNewLabel_1_1_1.setBounds(0, 138, 57, 15);
 		panel.add(lblNewLabel_1_1_1);
-		
+
 		txtPublisherID = new JTextField();
 		txtPublisherID.setColumns(10);
 		txtPublisherID.setBounds(43, 135, 178, 21);

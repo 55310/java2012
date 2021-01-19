@@ -278,7 +278,7 @@ public class UserManager extends JFrame {
 		groupSrchMethod.add(rdoMatch);
 		rdoMatch.setBounds(154, 39, 57, 23);
 		panel_Search.add(rdoMatch);
-		
+
 		JButton btnSrchInitiate = new JButton("초기화");
 		btnSrchInitiate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -308,8 +308,7 @@ public class UserManager extends JFrame {
 				userid4update = Integer.parseInt(tblUserinfo.getModel().getValueAt(row, 0).toString());
 				// 해당 레코드의 id를 이용하여 필드값을 채우는 메서드를 호출
 				setTxtField(userid4update);
-				
-				
+
 			}
 		});
 		scrollPane_DataTbl.setViewportView(tblUserinfo);
@@ -346,21 +345,21 @@ public class UserManager extends JFrame {
 				String sql = "UPDATE tblUser SET username=?, gender=?, addr=? WHERE userid = ? ";
 				String username = txtUserName.getText();
 				String addr = txtAddress.getText();
-				
+
 				try {
 					PreparedStatement pstmt = DBUtil.dbconn.prepareStatement(sql);
 					pstmt.setString(1, username);
-					pstmt.setString(2, newgender);					
+					pstmt.setString(2, newgender);
 					pstmt.setString(3, addr);
 					pstmt.setInt(4, userid4update);
-					
+
 					pstmt.execute();
 					LoadTbl();
-					
-				}catch(SQLException eupdate) {
+
+				} catch (SQLException eupdate) {
 					JOptionPane.showMessageDialog(null, "Update 오류가 발생하였습니다.");
-					//einsert.printStackTrace();
-				}// end of try catch
+					// einsert.printStackTrace();
+				} // end of try catch
 
 			}
 		});
@@ -374,17 +373,17 @@ public class UserManager extends JFrame {
 				// 임시값으로 보관된 사용자아이디값을 이용하여
 				// sql구문을 구성하고 prepared statement 완성, 질의처리를 진행한다.
 				String sql = "DELETE FROM tblUser WHERE userid = ?";
-				
+
 				try {
 					PreparedStatement pstmt = DBUtil.dbconn.prepareStatement(sql);
 					pstmt.setInt(1, userid4update);
 					pstmt.execute();
 					LoadTbl();
-					
-				}catch(SQLException eupdate) {
+
+				} catch (SQLException eupdate) {
 					JOptionPane.showMessageDialog(null, "Delete 오류가 발생하였습니다.");
-					//einsert.printStackTrace();
-				}// end of try catch
+					// einsert.printStackTrace();
+				} // end of try catch
 
 			}
 		});
@@ -396,30 +395,30 @@ public class UserManager extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// 저장 버튼을 클릭했을 때 입력된 데이터의 값들을 임시변수로 옮겨주고
 				// sql 구문을 작성하여 prepared statement로 완성 실행한다.
-				
-				//저장버튼을 클릭했을 때
+
+				// 저장버튼을 클릭했을 때
 				String sql = "INSERT INTO tblUser(username, userpwd, gender, addr) VALUES(?,?,?,?)";
 				String username = txtUserName.getText();
 				String userpwd = "1234";
-				//String gender = txtPublisherID.getText();
+				// String gender = txtPublisherID.getText();
 				String addr = txtAddress.getText();
-				
+
 				try {
 					PreparedStatement pstmt = DBUtil.dbconn.prepareStatement(sql);
 					pstmt.setString(1, username);
 					pstmt.setString(2, userpwd);
-					//String newGender = groupGender.getSelection().getActionCommand().toString();
+					// String newGender = groupGender.getSelection().getActionCommand().toString();
 					// String gender = newGender.equals("남자") ? "M" : "F";
-					pstmt.setString(3, newgender);					
+					pstmt.setString(3, newgender);
 					pstmt.setString(4, addr);
-					
+
 					pstmt.execute();
 					LoadTbl();
-					
-				}catch(SQLException einsert) {
+
+				} catch (SQLException einsert) {
 					JOptionPane.showMessageDialog(null, "Insertion 오류가 발생하였습니다.");
-					//einsert.printStackTrace();
-				}// end of try catch
+					// einsert.printStackTrace();
+				} // end of try catch
 
 			}
 		});
@@ -468,8 +467,7 @@ public class UserManager extends JFrame {
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				model.addRow(new Object[] { 
-						rs.getInt(1), // userid
+				model.addRow(new Object[] { rs.getInt(1), // userid
 						rs.getString(2), // username
 						rs.getString(3), // userpwd
 						rs.getString(4), // gender
@@ -494,33 +492,32 @@ public class UserManager extends JFrame {
 			srce.printStackTrace();
 		}
 	}// end of LoadTbl
-	
+
 	private void setTxtField(int id) {
 		String sql = "SELECT * FROM tblUser WHERE userid = ?";
-		
+
 		try {
 			PreparedStatement pstmt = DBUtil.dbconn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				txtUserName.setText(rs.getString(2)); // username
-				//txtUserPwd.setText(rs.getString(3));   // userpwd
+				// txtUserPwd.setText(rs.getString(3)); // userpwd
 				String tmpGender = rs.getString(4);// gender
-				if(tmpGender.equals("M")) {
+				if (tmpGender.equals("M")) {
 					rdoMale.setSelected(true);
 					rdoFemale.setSelected(false);
 					newgender = "M";
-				}
-				else { 
+				} else {
 					rdoMale.setSelected(false);
 					rdoFemale.setSelected(true);
 					newgender = "F";
 				}
 				txtAddress.setText(rs.getString(5));// address
-			}// end of while
-		}catch(SQLException eset) {
+			} // end of while
+		} catch (SQLException eset) {
 			JOptionPane.showMessageDialog(null, "해당 레코드 조회 중 오류가 발생하였습니다.");
-			//eset.printStackTrace();
+			// eset.printStackTrace();
 		}
-	}//end of setTxtField	
+	}// end of setTxtField
 }

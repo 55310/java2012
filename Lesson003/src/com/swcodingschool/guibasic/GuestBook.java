@@ -7,8 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,19 +21,18 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GuestBook extends JFrame {
 	private JTextField txtName;
 	private JTextField txtNumber;
 	private JTextField txtAddr;
 	private JTextField txtNofP;
-	private JTextField txtDateTime;
 	DefaultTableModel model;
 	private JTable GuestBookinfo;
 	private int userid4update;
 
-	
-	
 	
 	/**
 	 * Launch the application.
@@ -56,7 +53,18 @@ public class GuestBook extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
+	
 	public GuestBook() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// 창이 열렸을때 테이블 실행
+				LoadTbl();
+			}
+		}); // end of GuestBook
+		
+		
 		getContentPane().setBackground(Color.WHITE);
 		setTitle("GuestBook");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,37 +74,27 @@ public class GuestBook extends JFrame {
 		JButton btnWrite = new JButton("작성");
 		btnWrite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-		 if(DBUtil.dbconn == null) DBUtil.DBConnect();
 	
-				DefaultTableModel model = new DefaultTableModel();
-				model.addColumn("성 명");
-				model.addColumn("전화번호");
-				model.addColumn("주 소");
-				model.addColumn("방문인원");
-				model.addColumn("날짜/시간");
-				
-				
-				
-				//작성 버튼을 클릭했을 때
-				String sql = "INSERT INTO guestb(GuestName, PoneNumber, GuestAddr, GuestNofP, GuestDateTime) VALUES(?,?,?,?,?)";
+				//작성 버튼을 클릭했을 때 작성되어지는
+				String sql = "INSERT INTO guestb(GuestName, PoneNumber, GuestAddr, GuestNofP) VALUES(?,?,?,?)";
 				String GuestName = txtName.getText();
 				String PoneNumber = txtNumber.getText();
 				String GuestAddr = txtAddr.getText();
 				String GuestNofP = txtNofP.getText();
-				String GuestDateTime = txtDateTime.getText();
+				//String GuestDateTime = txtDateTime.getText();
 				
 				try {
 					PreparedStatement pstmt = DBUtil.dbconn.prepareStatement(sql);
 					pstmt.setString(1, GuestName);
 					pstmt.setInt(2, Integer.parseInt(PoneNumber));
 					pstmt.setString(3, GuestAddr);					
-					pstmt.setInt(4, Integer.parseInt(GuestNofP));									
-					pstmt.setInt(5, Integer.parseInt(GuestDateTime));
+					pstmt.setString(4, GuestNofP);									
+					//pstmt.setInt(5, Integer.parseInt(GuestDateTime));
+					
 					
 					pstmt.execute();
 					LoadTbl();
-					
+					JOptionPane.showMessageDialog(null, "방명록이 작성 되었습니다.");
 				}catch(SQLException einsert) {
 					JOptionPane.showMessageDialog(null, "Insertion 오류가 발생하였습니다.");
 					einsert.printStackTrace();
@@ -126,16 +124,10 @@ public class GuestBook extends JFrame {
 				int row = GuestBookinfo.getSelectedRow();
 				userid4update = Integer.parseInt(GuestBookinfo.getModel().getValueAt(row, 0).toString());
 				
-			
-				
-				
-			}
-		});
+			} //end of mouseClicked
+		}); //end of addMouseListener
 		
-		scrollPane.setViewportView(GuestBookinfo);
-		
-		
-		
+		scrollPane.setViewportView(GuestBookinfo); // 스크롤 패널의 클라이언트 설정
 		
 		JPanel panel_GuestData = new JPanel();
 		panel_GuestData.setBackground(Color.WHITE);
@@ -187,17 +179,6 @@ public class GuestBook extends JFrame {
 		panel_GuestData.add(lblNewLabel_4);
 		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		JLabel lblNewLabel_5 = new JLabel("날짜/시간\r\n :");
-		lblNewLabel_5.setFont(new Font("맑은 고딕", Font.BOLD, 12));
-		lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_5.setBounds(0, 233, 70, 15);
-		panel_GuestData.add(lblNewLabel_5);
-		
-		txtDateTime = new JTextField();
-		txtDateTime.setBounds(80, 231, 116, 18);
-		panel_GuestData.add(txtDateTime);
-		txtDateTime.setColumns(10);
-		
 		JLabel lblNewLabel = new JLabel("방명록");
 		lblNewLabel.setBounds(271, 10, 111, 50);
 		getContentPane().add(lblNewLabel);
@@ -207,9 +188,24 @@ public class GuestBook extends JFrame {
 		btnDelete.setFont(new Font("궁서", Font.BOLD, 12));
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				// 삭제 버튼을 클릭했을 때
+				String sql = "DELETE FROM guestb WHERE Number = ?";
+
+				try {
+					PreparedStatement pstmt = DBUtil.dbconn.prepareStatement(sql);
+					pstmt.setInt(1, userid4update);
+					pstmt.execute();
+					LoadTbl();
+
+				} catch (SQLException eupdate) {
+					JOptionPane.showMessageDialog(null, "Delete 오류가 발생하였습니다.");
+					// einsert.printStackTrace();
+				} // end of try catch
+				
+				
 			}
 		});
-		
 		
 		btnDelete.setBounds(95, 433, 67, 23);
 		getContentPane().add(btnDelete);
@@ -219,9 +215,10 @@ public class GuestBook extends JFrame {
 		panel.setBounds(0, 401, 208, 55);
 		getContentPane().add(panel);
 	}
-	
+	    // 틀 만들기
 	private void LoadTbl() {
 		model = new DefaultTableModel();
+		model.addColumn("번 호");
 		model.addColumn("성 명");
 		model.addColumn("전화번호");
 		model.addColumn("주 소");
@@ -232,36 +229,40 @@ public class GuestBook extends JFrame {
 		if(DBUtil.dbconn == null) DBUtil.DBConnect();
 		String sql = "SELECT * FROM guestb";
 		
+		// 
 		try {
 			PreparedStatement pstmt = DBUtil.dbconn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
 				model.addRow(new Object[] {
-						rs.getInt(1),      // bookid
-						rs.getString(2),   // title
-						rs.getString(3),   // author
-						rs.getString(4),   // publisher
-						rs.getInt(5)       // price
+						rs.getInt(1),    // Number
+						rs.getString(2), // GuestName
+						rs.getInt(3),    // PoneNumber
+						rs.getString(4), // GuestAddr
+						rs.getString(5), // GuestNofP
+						rs.getString(6)  // GuestDateTime
 				});
 			}// end of while
 			rs.close();
 			pstmt.close();
 			
+			// 각 컬럼 너비 설정
 			GuestBookinfo.setModel(model);
 			GuestBookinfo.setAutoResizeMode(0);
-			GuestBookinfo.getColumnModel().getColumn(0).setPreferredWidth(50);//bookid
-			GuestBookinfo.getColumnModel().getColumn(1).setPreferredWidth(150);//title
-			GuestBookinfo.getColumnModel().getColumn(2).setPreferredWidth(80);//author
-			GuestBookinfo.getColumnModel().getColumn(3).setPreferredWidth(80);//publisher
-			GuestBookinfo.getColumnModel().getColumn(4).setPreferredWidth(50);//price
+			GuestBookinfo.getColumnModel().getColumn(0).setPreferredWidth(35);//Number
+			GuestBookinfo.getColumnModel().getColumn(1).setPreferredWidth(50);//GuestName
+			GuestBookinfo.getColumnModel().getColumn(2).setPreferredWidth(100);//PoneNumber
+			GuestBookinfo.getColumnModel().getColumn(3).setPreferredWidth(150);//GuestAddr
+			GuestBookinfo.getColumnModel().getColumn(4).setPreferredWidth(55);//GuestNofP
+			GuestBookinfo.getColumnModel().getColumn(5).setPreferredWidth(120);//GuestDateTime
 			
-			JOptionPane.showMessageDialog(null, "테이블을 로딩하였습니다.");
+			
 			
 		}catch(SQLException eload) {
 			JOptionPane.showMessageDialog(null, "테이블 로딩 오류");
 			eload.printStackTrace();
-		}
+		} //end of catch
 		
 		
 	}// end of LoadTbl()
-}
+} // end of Class
