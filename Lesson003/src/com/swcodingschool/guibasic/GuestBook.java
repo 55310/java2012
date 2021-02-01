@@ -65,6 +65,8 @@ public class GuestBook extends JFrame {
 		}); // end of GuestBook
 		
 		
+		
+		
 		getContentPane().setBackground(Color.WHITE);
 		setTitle("GuestBook");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -86,7 +88,7 @@ public class GuestBook extends JFrame {
 				try {
 					PreparedStatement pstmt = DBUtil.dbconn.prepareStatement(sql);
 					pstmt.setString(1, GuestName);
-					pstmt.setInt(2, Integer.parseInt(PoneNumber));
+					pstmt.setString(2, PoneNumber);
 					pstmt.setString(3, GuestAddr);					
 					pstmt.setString(4, GuestNofP);									
 					//pstmt.setInt(5, Integer.parseInt(GuestDateTime));
@@ -105,7 +107,7 @@ public class GuestBook extends JFrame {
 		});
 		
 		btnWrite.setFont(new Font("궁서", Font.BOLD, 12));
-		btnWrite.setBounds(95, 401, 67, 23);
+		btnWrite.setBounds(81, 357, 67, 23);
 		getContentPane().add(btnWrite);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -123,27 +125,31 @@ public class GuestBook extends JFrame {
 				// 데이터아이템 텍스트필드에 뿌려준다.
 				int row = GuestBookinfo.getSelectedRow();
 				userid4update = Integer.parseInt(GuestBookinfo.getModel().getValueAt(row, 0).toString());
-				
+				// 해당 레코드의 id를 이용하여 필드값을 채우는 메서드를 호출
+				setTxtField(userid4update);
+
+			
 			} //end of mouseClicked
 		}); //end of addMouseListener
 		
 		scrollPane.setViewportView(GuestBookinfo); // 스크롤 패널의 클라이언트 설정
 		
+		
 		JPanel panel_GuestData = new JPanel();
 		panel_GuestData.setBackground(Color.WHITE);
-		panel_GuestData.setBounds(0, 119, 208, 283);
+		panel_GuestData.setBounds(0, 119, 208, 228);
 		getContentPane().add(panel_GuestData);
 		panel_GuestData.setLayout(null);
 		
 		txtName = new JTextField();
 		txtName.setBounds(80, 0, 116, 21);
 		panel_GuestData.add(txtName);
-		txtName.setColumns(10);
+		txtName.setColumns(11);
 		
 		txtNumber = new JTextField();
 		txtNumber.setBounds(80, 52, 116, 21);
 		panel_GuestData.add(txtNumber);
-		txtNumber.setColumns(10);
+		txtNumber.setColumns(11);
 		
 		txtNofP = new JTextField();
 		txtNofP.setBounds(80, 176, 116, 21);
@@ -153,7 +159,7 @@ public class GuestBook extends JFrame {
 		txtAddr = new JTextField();
 		txtAddr.setBounds(80, 112, 116, 21);
 		panel_GuestData.add(txtAddr);
-		txtAddr.setColumns(10);
+		txtAddr.setColumns(11);
 		
 		JLabel lblNewLabel_1 = new JLabel("성명 :");
 		lblNewLabel_1.setFont(new Font("맑은 고딕", Font.BOLD, 12));
@@ -202,18 +208,50 @@ public class GuestBook extends JFrame {
 					JOptionPane.showMessageDialog(null, "Delete 오류가 발생하였습니다.");
 					// einsert.printStackTrace();
 				} // end of try catch
+			
+			}
+		});
+		
+		btnDelete.setBounds(81, 446, 67, 23);
+		getContentPane().add(btnDelete);
+		
+		JButton btnUpdate = new JButton("수정");
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// 수정 버튼을 클릭했을 때
+				// 텍스트 필드의 값을 임시변수로 취하고
+				// sql구문구성 후 prepared statement로 완성, 질의처리를 진행한다.
+				String sql = "UPDATE guestb SET GuestName=?, PoneNumber=?, GuestAddr=?, GuestNofP=?WHERE Number = ? ";
+				String GuestName = txtName.getText();
+			    String PoneNumber = txtNumber.getText();
+				String GuestAddr = txtAddr.getText();
+				String GuestNofP = txtNofP.getText();
+
+				try {
+					PreparedStatement pstmt = DBUtil.dbconn.prepareStatement(sql);
+					pstmt.setString(1, GuestName);
+					pstmt.setString(2, PoneNumber);
+					pstmt.setString(3, GuestAddr);
+					pstmt.setString(4, GuestNofP);
+					pstmt.setInt(5, userid4update);
+
+					pstmt.execute();
+					LoadTbl();
+
+				} catch (SQLException eupdate) {
+					JOptionPane.showMessageDialog(null, "Update 오류가 발생하였습니다.");
+					// einsert.printStackTrace();
+				} // end of try catch
 				
 				
 			}
 		});
 		
-		btnDelete.setBounds(95, 433, 67, 23);
-		getContentPane().add(btnDelete);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(0, 401, 208, 55);
-		getContentPane().add(panel);
+		
+		btnUpdate.setFont(new Font("궁서", Font.BOLD, 12));
+		btnUpdate.setBounds(81, 401, 67, 23);
+		getContentPane().add(btnUpdate);
 	}
 	    // 틀 만들기
 	private void LoadTbl() {
@@ -237,7 +275,7 @@ public class GuestBook extends JFrame {
 				model.addRow(new Object[] {
 						rs.getInt(1),    // Number
 						rs.getString(2), // GuestName
-						rs.getInt(3),    // PoneNumber
+						rs.getString(3),    // PoneNumber
 						rs.getString(4), // GuestAddr
 						rs.getString(5), // GuestNofP
 						rs.getString(6)  // GuestDateTime
@@ -265,4 +303,24 @@ public class GuestBook extends JFrame {
 		
 		
 	}// end of LoadTbl()
+	
+	// 클릭 이벤트를 만들기 위한 테이블 
+	private void setTxtField(int id) {
+		String sql = "SELECT * FROM guestb WHERE Number = ?";
+
+		try {
+			PreparedStatement pstmt = DBUtil.dbconn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				txtName.setText(rs.getString(2)); // GuestName
+				txtNumber.setText(rs.getString(3)); // PoneNumber
+				txtAddr.setText(rs.getString(4)); // GuestAddr
+				txtNofP.setText(rs.getString(5)); // GuestNofP			
+			} // end of while
+		} catch (SQLException eset) {
+			JOptionPane.showMessageDialog(null, "해당 레코드 조회 중 오류가 발생하였습니다.");
+			// eset.printStackTrace();
+		}
+	}// end of setTxtField
 } // end of Class

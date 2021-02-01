@@ -164,6 +164,8 @@ public class BookInfo extends JFrame {
 				setTxtField(bookid4update);
 			}
 		});
+		
+		
 		tblBook.setModel(new DefaultTableModel());
 		scrollPane.setViewportView(tblBook);
 		

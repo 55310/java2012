@@ -520,4 +520,4 @@ public class UserManager extends JFrame {
 			// eset.printStackTrace();
 		}
 	}// end of setTxtField
-}
+} // end of class

@@ -10,6 +10,12 @@ import java.sql.SQLException;
 public class DBUtil {
 	static final String JDBCDRV = "com.mysql.cj.jdbc.Driver";
 	static final String URL = "jdbc:mysql://localhost:3306/GuestBook?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+
+//	// 오라클 연동
+//	static final String JDBCDRV = "oracle.jdbc.driver.OracleDriver";
+//	static final String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
+	//
+	
 	static final String DBUSER = "java";
 	static final String DBPASSWD = "1234";
 	
