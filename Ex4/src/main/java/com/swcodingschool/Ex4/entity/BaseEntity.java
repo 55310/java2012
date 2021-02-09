@@ -1,4 +1,4 @@
-package com.swcodingschool.Ex4.emtity;
+package com.swcodingschool.Ex4.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
