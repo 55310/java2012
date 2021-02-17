@@ -9,8 +9,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ShopDTO {
 
-    private Long p_num;
-    private String p_name;
-    private Long p_price;
-    private String p_des;
+    private Long pnum;
+    private String pname;
+    private Long pprice;
+    private String pdes;
+
+    public Long getPnum() {
+        return pnum;
+    }
+
+    public String getPname() {
+        return pname;
+    }
+
+    public Long getPprice() {
+        return pprice;
+    }
+
+    public String getPdes() {
+        return pdes;
+    }
 }

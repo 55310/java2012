@@ -2,7 +2,11 @@ package com.swcodingschool.Shop2.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 @Getter
@@ -14,15 +18,15 @@ public class Shop {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private Long p_num;
+    private Long pnum;
 
     @Column(length = 100, nullable = false)
-    private String p_name;
+    private String pname;
 
     @Column(length = 1500, nullable = false)
-    private Long p_price;
+    private Long pprice;
 
     @Column(length = 50, nullable = false)
-    private String p_des;
+    private String pdes;
 
 }
