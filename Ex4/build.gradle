@@ -10,6 +10,17 @@ group = 'com.swcodingschool'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+bootWar {
+	archiveName("guestbook.war")
+}
+
+war {
+	archiveName("guestbook.war")
+}
+
+bootWar.enabled = false
+war.enabled = true
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -30,6 +41,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'com.querydsl:querydsl-jpa'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
 test {

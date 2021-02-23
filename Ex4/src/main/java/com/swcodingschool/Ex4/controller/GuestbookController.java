@@ -35,30 +35,30 @@ public class GuestbookController {
         model.addAttribute("result", service.getList(pageRequestDTO));
     }
 
-//    // 게시글 등록을 위한 추가 처리
-//
-//    @GetMapping("/register")
-//    public void register() {
-//        log.info("register get...");
-//    }
-//
-//    @PostMapping("/register")
-//    public String registerPost(GuestbookDTO dto, RedirectAttributes redirectAttributes) {
-//
-//        log.info("dto..." + dto);
-//
-//        // 새로 추가된 엔티티의 번호
-//        Long gno = service.register(dto);
-//
-//        redirectAttributes.addFlashAttribute("msg", gno);
-//        return "redirect:/guestbook/list";
-//    }
-//
-//    @GetMapping("/read")
-//    public void read(long gno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
-//        log.info("gno : " + gno);
-//        GuestbookDTO dto = service.read(gno);
-//        model.addAttribute("dto", dto);
-//    }
+    // 게시글 등록을 위한 추가 처리
+
+    @GetMapping("/register")
+    public void register() {
+        log.info("register get...");
+    }
+
+    @PostMapping("/register")
+    public String registerPost(GuestbookDTO dto, RedirectAttributes redirectAttributes) {
+
+        log.info("dto..." + dto);
+
+        // 새로 추가된 엔티티의 번호
+        Long gno = service.register(dto);
+
+        redirectAttributes.addFlashAttribute("msg", gno);
+        return "redirect:/guestbook/list";
+    }
+
+    @GetMapping("/read")
+    public void read(long gno, @ModelAttribute("requestDTO") PageRequestDTO requestDTO, Model model) {
+        log.info("gno : " + gno);
+        GuestbookDTO dto = service.read(gno);
+        model.addAttribute("dto", dto);
+    }
 
 }
