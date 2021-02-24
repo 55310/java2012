@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="content">
+
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>장바구니</title>
+
+        <!-- Bootstrap core CSS -->
+        <link th:href="@{../vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link th:href="@{../css/shop-homepage.css}" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Shop</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a th:href="@{/shop/list}">
+                            <button type="button" class="btn btn-dark">Home</button>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/shop/login}">
+                            <button type="button" class="btn btn-dark">Login</button>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a th:href="@{/shop/signup}">
+                            <button type="button" class="btn btn-dark">Signup</button>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a th:href="@{/shop/cart}">
+                            <button type="button" class="btn btn-dark">Basket</button>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="co1">상품번호</th>
+            <th scope="co1">상품이름</th>
+            <th scope="co1">상품가격</th>
+        </tr>
+        </thead>
+        <tbody>
+
+
+
+        </tbody>
+    </table>
+
+
+    </body>
+</th:block><!-- th:fragment=content -->
+</th:block><!-- th:replace -->
+</html>

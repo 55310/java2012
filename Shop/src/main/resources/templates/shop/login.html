@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="content">
+
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>로그인</title>
+
+        <!-- Bootstrap core CSS -->
+        <link th:href="@{../vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link th:href="@{../css/shop-homepage.css}" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Shop</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a th:href="@{/shop/list}">
+                            <button type="button" class="btn btn-dark">Home</button>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/shop/login}">
+                            <button type="button" class="btn btn-dark">Login</button>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a th:href="@{/shop/signup}">
+                            <button type="button" class="btn btn-dark">Signup</button>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a th:href="@{/shop/cart}">
+                            <button type="button" class="btn btn-dark">Basket</button>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <center>
+        <body>
+        <h2>로그인</h2>
+
+
+        <p>
+            가입하신 아이디와 비밀번호를 입력해주세요.<br>
+        </p>
+        <div>
+        <ul>
+            <input class="login-input" type="text" name="id"
+                       placeholder="ID" id="id"><br>
+            <input class="login-input" type="password" name="pw"
+                       placeholder="PASSWORD" id="pw">
+        </ul>
+
+            <a th:href="@{/shop/list}">
+                <button type="button" class="btn btn-primary" onclick="login()">로그인</button>
+                <script>
+                function login() {
+	            alert("로그인 되었습니다.");
+                }
+
+                </script>
+            </a>
+        </div>
+        </form>
+
+        </body>
+    </center>
+    </body>
+</th:block><!-- th:fragment=content -->
+</th:block><!-- th:replace -->
+</html>
